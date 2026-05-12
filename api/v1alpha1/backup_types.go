@@ -25,33 +25,28 @@ import (
 
 // BackupSpec defines the desired state of Backup
 type BackupSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	// The following markers will use OpenAPI v3 schema to validate the value
-	// More info: https://book.kubebuilder.io/reference/markers/crd-validation.html
+	// SourcePVC is the name of the PersistentVolumeClaim you want to backup
+	// +kubebuilder:validation:Required
+	SourcePVC string `json:"sourcePVC"`
 
-	// foo is an example field of Backup. Edit backup_types.go to remove/update
-	// +optional
-	Foo *string `json:"foo,omitempty"`
+	// GCSBucket is the name of the Google Cloud Storage bucket
+	// +kubebuilder:validation:Required
+	GCSBucket string `json:"gcsBucket"`
+
+	// GCPProject is the Project ID where the bucket resides
+	// +kubebuilder:validation:Required
+	GCPProject string `json:"gcpProject"`
 }
 
 // BackupStatus defines the observed state of Backup.
 type BackupStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Phase is a high-level summary (Pending, Running, Completed, Failed)
+	Phase string `json:"phase,omitempty"`
 
-	// For Kubernetes API conventions, see:
-	// https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties
+	// JobName stores the name of the worker Job doing the actual upload
+	JobName string `json:"jobName,omitempty"`
 
-	// conditions represent the current state of the Backup resource.
-	// Each condition has a unique type and reflects the status of a specific aspect of the resource.
-	//
-	// Standard condition types include:
-	// - "Available": the resource is fully functional
-	// - "Progressing": the resource is being created or updated
-	// - "Degraded": the resource failed to reach or maintain its desired state
-	//
-	// The status of each condition is one of True, False, or Unknown.
+	// Conditions represent the granular state of the Backup resource.
 	// +listType=map
 	// +listMapKey=type
 	// +optional
