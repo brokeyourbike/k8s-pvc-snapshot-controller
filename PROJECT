@@ -8,4 +8,14 @@ layout:
 - go.kubebuilder.io/v4
 projectName: k8s-pvc-snapshot-controller
 repo: github.com/brokeyourbike/k8s-pvc-snapshot-controller
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: stasi.uk
+  group: storage
+  kind: Backup
+  path: github.com/brokeyourbike/k8s-pvc-snapshot-controller/api/v1alpha1
+  version: v1alpha1
 version: "3"
